@@ -1,0 +1,176 @@
+\documentclass[11pt,letterpaper]{article}
+
+% Essential packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{ltablex}
+\usepackage{enumitem}
+
+% Professional serif font - Palatino
+\usepackage{mathpazo}
+\usepackage[scaled=0.95]{helvet}
+
+% Page geometry - professional whitepaper margins
+\geometry{
+    top=1.0in,
+    bottom=1.0in,
+    left=1.25in,
+    right=1.25in,
+    headheight=22pt,
+    headsep=0.25in,
+    footskip=0.5in
+}
+
+% Fix for Pandoc's tightlist command
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Line spacing
+\usepackage{setspace}
+\setstretch{1.15}
+
+% Color scheme - customizable via variables
+$if(primary-color)$
+\definecolor{primarycolor}{HTML}{$primary-color$}
+$else$
+\definecolor{primarycolor}{RGB}{0,51,102}
+$endif$
+
+$if(secondary-color)$
+\definecolor{secondarycolor}{HTML}{$secondary-color$}
+$else$
+\definecolor{secondarycolor}{RGB}{85,85,85}
+$endif$
+
+% Hyperref setup with dynamic metadata
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primarycolor,
+    urlcolor=primarycolor,
+    citecolor=primarycolor,
+    $if(author)$pdfauthor={$author$},$endif$
+    $if(title)$pdftitle={$title$},$endif$
+    $if(subject)$pdfsubject={$subject$},$endif$
+    $if(keywords)$pdfkeywords={$keywords$}$endif$
+}
+
+% Section formatting
+\titleformat{\section}
+    {\Large\bfseries\color{primarycolor}}
+    {\thesection}{1em}{}
+    [\vspace{-0.5em}\color{secondarycolor}\titlerule]
+
+\titleformat{\subsection}
+    {\large\bfseries\color{primarycolor}}
+    {\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}
+    {\normalsize\bfseries\color{secondarycolor}}
+    {\thesubsubsection}{1em}{}
+
+% Section spacing
+\titlespacing*{\section}{0pt}{1.5em}{0.75em}
+\titlespacing*{\subsection}{0pt}{1.0em}{0.5em}
+\titlespacing*{\subsubsection}{0pt}{0.75em}{0.25em}
+
+% Headers and footers - dynamic
+\pagestyle{fancy}
+\fancyhf{}
+$if(header-left)$
+\fancyhead[L]{\small\textcolor{secondarycolor}{$header-left$}}
+$else$
+$if(title)$
+\fancyhead[L]{\small\textcolor{secondarycolor}{$title$}}
+$endif$
+$endif$
+\fancyhead[R]{\small\textcolor{secondarycolor}{\thepage}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{secondarycolor}\leaders\hrule height \headrulewidth\hfill}}
+
+% Title page style
+\fancypagestyle{titlepage}{
+    \fancyhf{}
+    \renewcommand{\headrulewidth}{0pt}
+}
+
+% Table settings
+\renewcommand{\arraystretch}{1.3}
+\setlength{\tabcolsep}{10pt}
+
+% Make tables full width by default
+\keepXColumns
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+
+% List settings
+\setlist{nosep, leftmargin=*, after=\vspace{0.5em}}
+
+% Paragraph settings
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.75em}
+
+% Custom title page command - fully dynamic
+\newcommand{\makewhitepapertitle}{
+    \thispagestyle{titlepage}
+    \begin{center}
+        \vspace*{1.5in}
+        
+        $if(title)$
+        {\Huge\bfseries\color{primarycolor} $title$\\[0.3em]}
+        $endif$
+        
+        $if(subtitle)$
+        {\LARGE\bfseries $subtitle$\\[2em]}
+        $endif$
+        
+        \vspace{1em}
+        
+        $if(version)$
+        {\large Version $version$\\[1em]}
+        $endif$
+        
+        \vspace{2em}
+        
+        {\large 
+        $if(author)$\textbf{Author:} $author$\\[0.5em]$endif$
+        $if(date)$\textbf{Date:} $date$\\[0.5em]$endif$
+        $if(organization)$\textbf{Organization:} $organization$\\[0.5em]$endif$
+        $if(audience)$\textbf{Audience:} $audience$\\[1em]$endif$
+        }
+        
+        \vfill
+        
+        $if(tagline)$
+        {\large\textcolor{secondarycolor}{
+        $tagline$
+        }}
+        $else$
+        $if(subtitle)$
+        {\large\textcolor{secondarycolor}{
+        $subtitle$
+        }}
+        $endif$
+        $endif$
+        
+        \vspace{1in}
+    \end{center}
+    \newpage
+}
+
+\begin{document}
+
+\makewhitepapertitle
+
+$body$
+
+\end{document}
